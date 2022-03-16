@@ -1,19 +1,33 @@
 import classNames from 'classnames';
 import { FC } from 'react';
 
+enum modificators {
+  outline,
+  add,
+  cart,
+}
+
 type Props = {
-  className: string;
+  [key in keyof typeof modificators]?: boolean;
+} & {
+  className?: string;
 };
 
-export const Button: FC<Props> = ({ className, children }) => {
+export const Button: FC<Props> = (props) => {
   return (
     <button
-      className={classNames('button', className, {
-        outline: 'button--outline',
-        add: 'button--add',
-      })}
+      className={classNames(
+        'button',
+        props.className,
+        Object.fromEntries(
+          Object.keys(modificators).map((key) => [
+            `button--${key}`,
+            props[key as keyof typeof props],
+          ])
+        )
+      )}
     >
-      {children}
+      {props.children}
     </button>
   );
 };
