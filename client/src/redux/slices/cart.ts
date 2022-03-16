@@ -4,7 +4,7 @@ const initialState = {
   value: [] as TCartPizza[],
 };
 
-export const cart = createSlice({
+const cart = createSlice({
   initialState,
   name: 'cart',
   reducers: {

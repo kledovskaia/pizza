@@ -4,7 +4,7 @@ const initialState = {
   value: [] as TPizza[],
 };
 
-export const pizzas = createSlice({
+const pizzas = createSlice({
   initialState,
   name: 'pizzas',
   reducers: {
