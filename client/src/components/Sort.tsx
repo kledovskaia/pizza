@@ -1,7 +1,34 @@
-export const Sort = () => {
+import {
+  FC,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+type Props = {
+  items: string[];
+};
+
+export const Sort: FC<Props> = ({ items }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selected, setSelected] = useState(0);
+  const sortRef = useRef(null!);
+  const togglePopup = useCallback(() => setIsPopupOpen((state) => !state), []);
+
+  useEffect(() => {
+    const handleOutsideClick = function (event: Event) {
+      const path = event.composedPath && event.composedPath();
+      if (!path.includes(sortRef.current)) setIsPopupOpen(false);
+    };
+    document.body.addEventListener('click', handleOutsideClick);
+    return () => document.body.removeEventListener('click', handleOutsideClick);
+  }, []);
+
   return (
-    <div className="sort">
-      <div className="sort__label">
+    <div ref={sortRef} className={`sort ${isPopupOpen ? 'sort--open' : ''}`}>
+      <div onClick={togglePopup} className="sort__label">
         <svg
           width="10"
           height="6"
@@ -15,15 +42,23 @@ export const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span>{items[selected]}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isPopupOpen && (
+        <div className="sort__popup">
+          <ul>
+            {items.map((name, index) => (
+              <li
+                key={name}
+                className={selected === index ? 'active' : ''}
+                onClick={() => setSelected(index)}
+              >
+                {name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

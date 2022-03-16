@@ -9,7 +9,7 @@ export const Home = () => {
           <Categories
             items={['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']}
           />
-          <Sort />
+          <Sort items={['популярности', 'цене', 'алфавиту']} />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
