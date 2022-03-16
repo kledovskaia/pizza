@@ -1,13 +1,22 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { Page } from './components/Page';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
+import { setPizzas } from './redux/slices/pizzas';
+import { AppState } from './redux/store';
 
-export const App = () => {
-  const [items, setItems] = useState<TPizza[]>([]);
+type Props = {
+  [key in keyof ReturnType<typeof mapStateToProps>]: ReturnType<
+    typeof mapStateToProps
+  >[key];
+} & {
+  [key in keyof typeof actions]: typeof actions[key];
+};
 
+const App: FC<Props> = ({ setPizzas, pizzas }) => {
   useEffect(() => {
     const fetchData = async () => {
       const {
@@ -15,7 +24,7 @@ export const App = () => {
       } = await axios.get<{
         pizzas: TPizza[];
       }>('http://localhost:3000/db.json');
-      setItems(pizzas);
+      setPizzas(pizzas);
     };
     fetchData();
   }, []);
@@ -24,8 +33,17 @@ export const App = () => {
     <Page>
       <Routes>
         <Route path="/cart" element={<Cart />} />
-        <Route path="/" element={<Home items={items} />} />
+        <Route path="/" element={<Home items={pizzas} />} />
       </Routes>
     </Page>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  pizzas: state.pizzas.value,
+});
+const actions = { setPizzas };
+
+const connectedApp = connect(mapStateToProps, actions)(App);
+
+export { connectedApp as App };
