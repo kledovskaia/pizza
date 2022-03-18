@@ -1,4 +1,7 @@
-import { memo, useState } from 'react';
+import { FC, memo } from 'react';
+import { connect } from 'react-redux';
+import { setFilterBy } from '../redux/slices/filters';
+import { AppState } from '../redux/store';
 
 const categoryVariants = [
   'Мясные',
@@ -8,11 +11,9 @@ const categoryVariants = [
   'Закрытые',
 ];
 
-const Categories = () => {
-  const [active, setActive] = useState<GetArrayItemType<
-    typeof categoryVariants
-  > | null>(null);
+type Props = typeof actions & ReturnType<typeof mapStateToProps>;
 
+const Categories: FC<Props> = ({ active, setActive }) => {
   return (
     <div className="categories">
       <ul>
@@ -22,11 +23,11 @@ const Categories = () => {
         >
           Все
         </li>
-        {categoryVariants.map((name) => (
+        {categoryVariants.map((name, index) => (
           <li
             key={name}
-            className={active === name ? 'active' : ''}
-            onClick={() => setActive(name)}
+            className={active === index ? 'active' : ''}
+            onClick={() => setActive(index)}
           >
             {name}
           </li>
@@ -36,4 +37,12 @@ const Categories = () => {
   );
 };
 
-export default memo(Categories);
+const mapStateToProps = (state: AppState) => ({
+  active: state.filters.filterBy,
+});
+
+const actions = {
+  setActive: setFilterBy,
+};
+
+export default connect(mapStateToProps, actions)(memo(Categories));
