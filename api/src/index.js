@@ -1,10 +1,15 @@
-import express from 'express';
+import { ApolloServer } from 'apollo-server';
 import dotenv from 'dotenv';
 dotenv.config();
+import { typeDefs } from './schema.js';
+import { resolvers } from './resolvers/index.js';
 
-const app = express();
-const port = process.env.PORT;
+// TODO: add
+// typeDefs
+// resolvers
 
-app.listen(port, () => {
-  console.log(`App is listening on http://localhost:${port}`);
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen().then(({ url }) => {
+  console.log(`Server is ready on ${url}`);
 });
