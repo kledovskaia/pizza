@@ -12,12 +12,10 @@ type Props = typeof actions;
 const App: FC<Props> = ({ setPizzas }) => {
   useEffect(() => {
     const fetchData = async () => {
-      const {
-        data: { pizzas },
-      } = await axios.get<{
+      const { data } = await axios.get<{
         pizzas: TPizza[];
       }>('http://localhost:3000/db.json');
-      setPizzas(pizzas);
+      setPizzas(data.pizzas);
     };
     fetchData();
   }, []);
