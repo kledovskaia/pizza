@@ -1,13 +1,15 @@
 import { FC } from 'react';
+import { connect } from 'react-redux';
 import { Categories } from '../components/Categories';
 import { Pizza } from '../components/Pizza';
 import { Sort } from '../components/Sort';
+import { AppState } from '../redux/store';
 
 type Props = {
   items: TPizza[];
 };
 
-export const Home: FC<Props> = ({ items }) => {
+const Home: FC<Props> = ({ items }) => {
   return (
     <div className="content">
       <div className="container">
@@ -27,3 +29,11 @@ export const Home: FC<Props> = ({ items }) => {
     </div>
   );
 };
+
+const mapStateToProps = (state: AppState) => ({
+  items: state.pizzas.value,
+});
+
+const connectedHome = connect(mapStateToProps)(Home);
+
+export { connectedHome as Home };

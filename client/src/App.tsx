@@ -6,17 +6,12 @@ import { Page } from './components/Page';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
 import { setPizzas } from './redux/slices/pizzas';
-import { AppState } from './redux/store';
 
 type Props = {
-  [key in keyof ReturnType<typeof mapStateToProps>]: ReturnType<
-    typeof mapStateToProps
-  >[key];
-} & {
   [key in keyof typeof actions]: typeof actions[key];
 };
 
-const App: FC<Props> = ({ setPizzas, pizzas }) => {
+const App: FC<Props> = ({ setPizzas }) => {
   useEffect(() => {
     const fetchData = async () => {
       const {
@@ -33,17 +28,13 @@ const App: FC<Props> = ({ setPizzas, pizzas }) => {
     <Page>
       <Routes>
         <Route path="/cart" element={<Cart />} />
-        <Route path="/" element={<Home items={pizzas} />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </Page>
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
-  pizzas: state.pizzas.value,
-});
 const actions = { setPizzas };
-
-const connectedApp = connect(mapStateToProps, actions)(App);
+const connectedApp = connect(null, actions)(App);
 
 export { connectedApp as App };
