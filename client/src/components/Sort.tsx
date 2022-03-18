@@ -9,7 +9,6 @@ type Props = typeof actions & ReturnType<typeof mapStateToProps>;
 
 const Sort: FC<Props> = ({ sortBy, setSortBy }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selected, setSelected] = useState(0);
   const sortRef = useRef(null!);
   const togglePopup = useCallback(() => setIsPopupOpen((state) => !state), []);
 
@@ -38,7 +37,7 @@ const Sort: FC<Props> = ({ sortBy, setSortBy }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>{sortVariants[selected]}</span>
+        <span>{sortVariants[sortBy]}</span>
       </div>
       {isPopupOpen && (
         <div className="sort__popup">
@@ -46,8 +45,8 @@ const Sort: FC<Props> = ({ sortBy, setSortBy }) => {
             {sortVariants.map((name, index) => (
               <li
                 key={name}
-                className={selected === index ? 'active' : ''}
-                onClick={() => setSelected(index)}
+                className={sortBy === index ? 'active' : ''}
+                onClick={() => setSortBy(index)}
               >
                 {name}
               </li>
