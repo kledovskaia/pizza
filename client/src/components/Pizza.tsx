@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 type Props = {
   [key in keyof TPizza]: TPizza[key];
@@ -8,7 +8,7 @@ type Props = {
 const typeVariants = ['тонкое', 'традиционное'];
 const sizeVariants = [26, 30, 40];
 
-export const Pizza: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
+const Pizza: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
@@ -68,3 +68,5 @@ export const Pizza: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
     </div>
   );
 };
+
+export default memo(Pizza);

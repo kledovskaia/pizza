@@ -1,30 +1,21 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { connect } from 'react-redux';
+import { AppState } from '../redux/store';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
-import { Pizza } from '../components/Pizza';
-import { AppState } from '../redux/store';
+import Pizza from '../components/Pizza';
 
 type Props = {
   items: TPizza[];
 };
-
-const categoryVariants = [
-  'Мясные',
-  'Вегетарианская',
-  'Гриль',
-  'Острые',
-  'Закрытые',
-];
-const sortVariants = ['популярности', 'цене', 'алфавиту'];
 
 const Home: FC<Props> = ({ items }) => {
   return (
     <div className="content">
       <div className="container">
         <div className="content__top">
-          <Categories items={categoryVariants} />
-          <Sort items={sortVariants} />
+          <Categories />
+          <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
@@ -41,4 +32,4 @@ const mapStateToProps = (state: AppState) => ({
   items: state.pizzas.value,
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(memo(Home));

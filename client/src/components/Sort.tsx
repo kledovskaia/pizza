@@ -1,10 +1,13 @@
 import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { AppState } from '../redux/store';
+import { setSortBy } from '../redux/slices/filters';
 
-type Props = {
-  items: string[];
-};
+const sortVariants = ['популярности', 'цене', 'алфавиту'];
 
-const Sort: FC<Props> = ({ items }) => {
+type Props = typeof actions & ReturnType<typeof mapStateToProps>;
+
+const Sort: FC<Props> = ({ sortBy, setSortBy }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selected, setSelected] = useState(0);
   const sortRef = useRef(null!);
@@ -35,12 +38,12 @@ const Sort: FC<Props> = ({ items }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>{items[selected]}</span>
+        <span>{sortVariants[selected]}</span>
       </div>
       {isPopupOpen && (
         <div className="sort__popup">
           <ul>
-            {items.map((name, index) => (
+            {sortVariants.map((name, index) => (
               <li
                 key={name}
                 className={selected === index ? 'active' : ''}
@@ -56,4 +59,12 @@ const Sort: FC<Props> = ({ items }) => {
   );
 };
 
-export default memo(Sort);
+const mapStateToProps = (state: AppState) => ({
+  sortBy: state.filters.sortBy,
+});
+
+const actions = {
+  setSortBy,
+};
+
+export default connect(mapStateToProps, actions)(memo(Sort));

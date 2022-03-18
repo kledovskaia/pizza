@@ -2,14 +2,12 @@ import axios from 'axios';
 import { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { Page } from './components/Page';
+import Page from './components/Page';
 import { Cart } from './pages/Cart';
 import Home from './pages/Home';
 import { setPizzas } from './redux/slices/pizzas';
 
-type Props = {
-  [key in keyof typeof actions]: typeof actions[key];
-};
+type Props = typeof actions;
 
 const App: FC<Props> = ({ setPizzas }) => {
   useEffect(() => {

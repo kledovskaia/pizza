@@ -1,13 +1,17 @@
-import { FC, memo, useState } from 'react';
+import { memo, useState } from 'react';
 
-type Props = {
-  items: string[];
-};
+const categoryVariants = [
+  'Мясные',
+  'Вегетарианская',
+  'Гриль',
+  'Острые',
+  'Закрытые',
+];
 
-export const Categories: FC<Props> = ({ items }) => {
-  const [active, setActive] = useState<GetArrayItemType<typeof items> | null>(
-    null
-  );
+const Categories = () => {
+  const [active, setActive] = useState<GetArrayItemType<
+    typeof categoryVariants
+  > | null>(null);
 
   return (
     <div className="categories">
@@ -18,7 +22,7 @@ export const Categories: FC<Props> = ({ items }) => {
         >
           Все
         </li>
-        {items.map((name) => (
+        {categoryVariants.map((name) => (
           <li
             key={name}
             className={active === name ? 'active' : ''}

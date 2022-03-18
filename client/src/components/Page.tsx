@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { Header } from './Header';
+import Header from './Header';
 
-export const Page: FC = ({ children }) => {
+const Page: FC = ({ children }) => {
   return (
     <div className="wrapper">
       <Header />
@@ -9,3 +9,5 @@ export const Page: FC = ({ children }) => {
     </div>
   );
 };
+
+export default Page;

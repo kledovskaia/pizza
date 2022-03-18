@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './Button';
 
-export const HeaderCart = () => {
+const HeaderCart = () => {
   return (
     <div className="header__cart">
       <Link to="/cart">
@@ -43,3 +44,5 @@ export const HeaderCart = () => {
     </div>
   );
 };
+
+export default memo(HeaderCart);

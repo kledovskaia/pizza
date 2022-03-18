@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/img/pizza-logo.svg';
 
-export const HeaderLogo = () => (
+const HeaderLogo = () => (
   <Link to="/" className="header__logo">
     <img width="38" src={logo} alt="Pizza logo" />
     <div>
@@ -10,3 +11,5 @@ export const HeaderLogo = () => (
     </div>
   </Link>
 );
+
+export default memo(HeaderLogo);

@@ -1,7 +1,8 @@
-import { HeaderLogo } from './HeaderLogo';
-import { HeaderCart } from './HeaderCart';
+import { memo } from 'react';
+import HeaderLogo from './HeaderLogo';
+import HeaderCart from './HeaderCart';
 
-export const Header = () => {
+const Header = () => {
   return (
     <div className="header">
       <div className="container">
@@ -11,3 +12,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default memo(Header);
