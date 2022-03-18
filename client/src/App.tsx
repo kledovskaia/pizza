@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { Page } from './components/Page';
 import { Cart } from './pages/Cart';
-import { Home } from './pages/Home';
+import Home from './pages/Home';
 import { setPizzas } from './redux/slices/pizzas';
 
 type Props = {
@@ -35,6 +35,4 @@ const App: FC<Props> = ({ setPizzas }) => {
 };
 
 const actions = { setPizzas };
-const connectedApp = connect(null, actions)(App);
-
-export { connectedApp as App };
+export default connect(null, actions)(App);

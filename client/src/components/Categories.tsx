@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 type Props = {
   items: string[];
@@ -31,3 +31,5 @@ export const Categories: FC<Props> = ({ items }) => {
     </div>
   );
 };
+
+export default memo(Categories);

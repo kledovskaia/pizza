@@ -1,17 +1,10 @@
-import {
-  FC,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
 
 type Props = {
   items: string[];
 };
 
-export const Sort: FC<Props> = ({ items }) => {
+const Sort: FC<Props> = ({ items }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selected, setSelected] = useState(0);
   const sortRef = useRef(null!);
@@ -62,3 +55,5 @@ export const Sort: FC<Props> = ({ items }) => {
     </div>
   );
 };
+
+export default memo(Sort);
