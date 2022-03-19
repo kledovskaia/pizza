@@ -1,14 +1,18 @@
 import { ApolloServer } from 'apollo-server';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 import { typeDefs } from './schema.js';
 import { resolvers } from './resolvers/index.js';
+import * as models from './models/index.js';
 
-// TODO: add
-// typeDefs
-// resolvers
+mongoose.connect(process.env.MONGO_DB);
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => ({ models }),
+});
 
 server.listen().then(({ url }) => {
   console.log(`Server is ready on ${url}`);
