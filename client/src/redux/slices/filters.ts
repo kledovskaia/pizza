@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-  filterBy: 0 as number | null,
-  sortBy: 0,
+  filterBy: null as number | null,
+  sortBy: 'popularity',
 };
 
 const filters = createSlice({

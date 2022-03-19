@@ -6,9 +6,10 @@ import Page from './components/Page';
 import { Cart } from './pages/Cart';
 import Home from './pages/Home';
 import { setPizzas } from './redux/slices/pizzas';
+import { AppState } from './redux/store';
 
 const GET_PIZZAS = gql`
-  query getPizzas($sortBy: Int, $filter: Int, $order: String) {
+  query getPizzas($sortBy: String, $filter: Int, $order: String) {
     getPizzas(sortBy: $sortBy, filter: $filter, order: $order) {
       id
       imageUrl
@@ -21,10 +22,16 @@ const GET_PIZZAS = gql`
     }
   }
 `;
-type Props = typeof actions;
+type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const App: FC<Props> = ({ setPizzas }) => {
-  const { data, loading, error } = useQuery(GET_PIZZAS);
+const App: FC<Props> = ({ setPizzas, sortBy, filter }) => {
+  const { data, loading, error } = useQuery(GET_PIZZAS, {
+    variables: {
+      sortBy,
+      filter,
+      order: 'asc',
+    },
+  });
 
   useEffect(() => {
     if (!data) return;
@@ -41,8 +48,13 @@ const App: FC<Props> = ({ setPizzas }) => {
   );
 };
 
+const mapStateToProps = (state: AppState) => ({
+  sortBy: state.filters.sortBy,
+  filter: state.filters.filterBy,
+});
+
 const actions = {
   setPizzas,
 };
 
-export default connect(null, actions)(App);
+export default connect(mapStateToProps, actions)(App);

@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { setSortBy } from '../redux/slices/filters';
 
-const sortVariants = ['популярности', 'цене', 'алфавиту'];
+const sortVariants = {
+  popularity: 'популярности',
+  price: 'цене',
+  alphabet: 'алфавиту',
+};
 
 type Props = typeof actions & ReturnType<typeof mapStateToProps>;
 
@@ -37,16 +41,16 @@ const Sort: FC<Props> = ({ sortBy, setSortBy }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>{sortVariants[sortBy]}</span>
+        <span>{sortVariants[sortBy as keyof typeof sortVariants]}</span>
       </div>
       {isPopupOpen && (
         <div className="sort__popup">
           <ul>
-            {sortVariants.map((name, index) => (
+            {Object.entries(sortVariants).map(([type, name]) => (
               <li
-                key={name}
-                className={sortBy === index ? 'active' : ''}
-                onClick={() => setSortBy(index)}
+                key={type}
+                className={sortBy === type ? 'active' : ''}
+                onClick={() => setSortBy(type)}
               >
                 {name}
               </li>
