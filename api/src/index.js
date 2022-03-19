@@ -5,10 +5,15 @@ dotenv.config();
 import { typeDefs } from './schema.js';
 import { resolvers } from './resolvers/index.js';
 import * as models from './models/index.js';
+import { data } from './data.js';
 
 mongoose.connect(process.env.MONGO_DB);
 
 const server = new ApolloServer({
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
   typeDefs,
   resolvers,
   context: () => ({ models }),
