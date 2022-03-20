@@ -130,7 +130,7 @@ const Cart: FC<Props> = ({
             </div>
             <div className="cart__bottom-buttons">
               <Link to="/">
-                <Button className="go-back-btn" add outline>
+                <Button className="go-back-btn button--add" outline>
                   <svg
                     width="8"
                     height="14"

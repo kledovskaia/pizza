@@ -21,6 +21,7 @@ body {
 }
 
 .content {
+  min-height: 60vh;
   padding: 40px 0;
 
   &__title {
@@ -301,6 +302,7 @@ body {
 
     img {
       display: block;
+      min-height: 255px;
       width: 300px;
       margin: 45px auto 60px;
     }
