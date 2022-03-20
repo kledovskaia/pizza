@@ -6,11 +6,9 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaLoader from '../components/PizzaLoader';
 
-type Props = {
-  items: TPizza[];
-};
+type Props = ReturnType<typeof mapStateToProps>;
 
-const Home: FC<Props> = ({ items }) => {
+const Home: FC<Props> = ({ items, cartItems }) => {
   return (
     <div className="content">
       <div className="container">
@@ -25,7 +23,13 @@ const Home: FC<Props> = ({ items }) => {
               .fill(null)
               .map((_, index) => <PizzaLoader key={index} />)}
           {!!items.length &&
-            items.map((item) => <PizzaBlock key={item.id} {...item} />)}
+            items.map((item) => (
+              <PizzaBlock
+                key={item.id}
+                count={cartItems[item.id]?.count}
+                {...item}
+              />
+            ))}
         </div>
       </div>
     </div>
@@ -34,6 +38,7 @@ const Home: FC<Props> = ({ items }) => {
 
 const mapStateToProps = (state: AppState) => ({
   items: state.pizzas.value,
+  cartItems: state.cart.value,
 });
 
 export default connect(mapStateToProps)(memo(Home));

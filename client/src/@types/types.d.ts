@@ -5,16 +5,16 @@ type TPizza = {
   price: number;
   name: string;
   imageUrl: string;
-  types: number[];
-  sizes: number[];
+  types: TPizza['type'][];
+  sizes: TPizza['size'][];
 };
 
 type TCartPizza = {
   id: TPizza['id'];
   name: TPizza['name'];
   imageUrl: TPizza['imageUrl'];
-  size: GetArrayItemType<TPizza['sizes']>;
-  type: GetArrayItemType<TPizza['types']>;
+  size: TPizza['size'];
+  type: TPizza['type'];
   count: number;
   price: number;
   subTotal: number;

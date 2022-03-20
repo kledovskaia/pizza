@@ -1,47 +1,60 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: [] as TCartPizza[],
+  value: {} as {
+    [key in TPizza['id']]: {
+      items: TCartPizza[];
+      count: number;
+    };
+  },
 };
 
 const cart = createSlice({
   initialState,
   name: 'cart',
   reducers: {
-    addPizza: (
-      state,
-      action: PayloadAction<GetArrayItemType<typeof initialState['value']>>
-    ) => {
-      const index = state.value.findIndex(
-        (item) => item.id === action.payload.id
+    addPizza: (state, action: PayloadAction<TCartPizza>) => {
+      const pizza = state.value[action.payload.id]?.items?.find(
+        (pizza) =>
+          pizza.size === action.payload.size &&
+          pizza.type === action.payload.type
       );
-      if (index) {
-        const pizza = state.value[index];
+      if (pizza) {
         pizza.subTotal += pizza.price;
         pizza.count++;
+        state.value[action.payload.id].count++;
       } else {
-        state.value.push(action.payload);
+        state.value[action.payload.id] = {
+          items: [
+            {
+              ...action.payload,
+              subTotal: action.payload.price,
+              count: 1,
+            },
+          ],
+          count: 1,
+        };
       }
     },
-    removePizza: (
-      state,
-      action: PayloadAction<
-        GetArrayItemType<typeof initialState['value']>['id']
-      >
-    ) => {
-      const index = state.value.findIndex((item) => item.id === action.payload);
-      const count = state.value[index].count;
+    removePizza: (state, action: PayloadAction<TCartPizza>) => {
+      const index = state.value[action.payload.id]?.items.findIndex(
+        (pizza) =>
+          pizza.size === action.payload.size &&
+          pizza.type === action.payload.type
+      );
+      const count = state.value[action.payload.id]?.items[index].count || 0;
 
       if (count > 1) {
-        const pizza = state.value[index];
+        const pizza = state.value[action.payload.id]?.items[index];
         pizza.subTotal -= pizza.price;
         pizza.count--;
       } else {
-        state.value.splice(index, 1);
+        state.value[action.payload.id]?.items.splice(index, 1);
       }
+      state.value[action.payload.id].count--;
     },
     removeAllPizzas: (state) => {
-      state.value = [];
+      state.value = {};
     },
   },
 });

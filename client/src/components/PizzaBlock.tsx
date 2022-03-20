@@ -1,16 +1,40 @@
 import classNames from 'classnames';
-import { FC, memo, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
+import { connect } from 'react-redux';
+import { addPizza } from '../redux/slices/cart';
+import { Button } from './Button';
 
-type Props = {
-  [key in keyof TPizza]: TPizza[key];
-};
+type Props = typeof actions &
+  TPizza & {
+    count?: number;
+  };
 
 const typeVariants = ['тонкое', 'традиционное'];
 const sizeVariants = [26, 30, 40];
 
-const PizzaBlock: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
+const PizzaBlock: FC<Props> = ({
+  addPizza,
+  id,
+  name,
+  types,
+  sizes,
+  price,
+  imageUrl,
+  count,
+}) => {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+
+  const handleAdd = useCallback(() => {
+    addPizza({
+      id,
+      name,
+      price,
+      imageUrl,
+      type: activeType,
+      size: activeSize,
+    } as TCartPizza);
+  }, []);
 
   return (
     <div className="pizza-block">
@@ -48,7 +72,7 @@ const PizzaBlock: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <Button onClick={handleAdd} add outline>
           <svg
             width="12"
             height="12"
@@ -62,11 +86,15 @@ const PizzaBlock: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
-        </div>
+          {count && <i>{count}</i>}
+        </Button>
       </div>
     </div>
   );
 };
 
-export default memo(PizzaBlock);
+const actions = {
+  addPizza,
+};
+
+export default connect(null, actions)(memo(PizzaBlock));
