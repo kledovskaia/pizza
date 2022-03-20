@@ -24,12 +24,12 @@ const GET_PIZZAS = gql`
 `;
 type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const App: FC<Props> = ({ setPizzas, sortBy, filter }) => {
+const App: FC<Props> = ({ setPizzas, sortBy, filter, order }) => {
   const { data, loading, error } = useQuery(GET_PIZZAS, {
     variables: {
       sortBy,
       filter,
-      order: 'asc',
+      order,
     },
   });
 
@@ -55,6 +55,7 @@ const App: FC<Props> = ({ setPizzas, sortBy, filter }) => {
 const mapStateToProps = (state: AppState) => ({
   sortBy: state.filters.sortBy,
   filter: state.filters.filterBy,
+  order: state.filters.orderBy,
 });
 
 const actions = {
