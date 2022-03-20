@@ -35,8 +35,9 @@ const App: FC<Props> = ({ setPizzas, sortBy, filter }) => {
 
   useEffect(() => {
     if (!data) return;
+    if (loading) setPizzas([]);
     setPizzas(data.getPizzas);
-  }, [data]);
+  }, [data, loading]);
 
   return (
     <Page>
