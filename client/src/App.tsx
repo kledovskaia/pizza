@@ -3,7 +3,7 @@ import { FC, useEffect, useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Page from './components/Page';
-import { Cart } from './pages/Cart';
+import Cart from './pages/Cart';
 import Home from './pages/Home';
 import { setPizzas } from './redux/slices/pizzas';
 import { AppState } from './redux/store';

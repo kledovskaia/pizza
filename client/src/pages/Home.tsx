@@ -8,7 +8,7 @@ import PizzaLoader from '../components/PizzaLoader';
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const Home: FC<Props> = ({ items, cartItems }) => {
+const Home: FC<Props> = ({ items, cart }) => {
   return (
     <div className="content">
       <div className="container">
@@ -26,7 +26,7 @@ const Home: FC<Props> = ({ items, cartItems }) => {
             items.map((item) => (
               <PizzaBlock
                 key={item.id}
-                count={cartItems[item.id]?.count}
+                count={cart.pizzas[item.id]?.count}
                 {...item}
               />
             ))}
@@ -38,7 +38,7 @@ const Home: FC<Props> = ({ items, cartItems }) => {
 
 const mapStateToProps = (state: AppState) => ({
   items: state.pizzas.value,
-  cartItems: state.cart.value,
+  cart: state.cart.value,
 });
 
 export default connect(mapStateToProps)(memo(Home));

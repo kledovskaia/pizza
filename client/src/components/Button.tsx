@@ -5,6 +5,7 @@ enum modificators {
   outline,
   add,
   cart,
+  circle,
 }
 
 type Props = {

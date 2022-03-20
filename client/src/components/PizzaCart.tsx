@@ -1,21 +1,22 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
+import { Button } from './Button';
 
-const PizzaCart = () => {
+type Props = TCartPizza;
+
+const PizzaCart: FC<Props> = ({ imageUrl, name, size, type, count, price }) => {
   return (
     <div className="cart__item">
       <div className="cart__item-img">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <img className="pizza-block__image" src={imageUrl} alt="" />
       </div>
       <div className="cart__item-info">
-        <h3>Сырный цыпленок</h3>
-        <p>тонкое тесто, 26 см.</p>
+        <h3>{name}</h3>
+        <p>
+          {type}, {size} см.
+        </p>
       </div>
       <div className="cart__item-count">
-        <div className="button button--outline button--circle cart__item-count-minus">
+        <Button className="cart__item-count-minus" outline circle>
           <svg
             width="10"
             height="10"
@@ -32,9 +33,9 @@ const PizzaCart = () => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
-        <b>2</b>
-        <div className="button button--outline button--circle cart__item-count-plus">
+        </Button>
+        <b>{count}</b>
+        <Button className="cart__item-count-minus" outline circle>
           <svg
             width="10"
             height="10"
@@ -51,13 +52,13 @@ const PizzaCart = () => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </Button>
       </div>
       <div className="cart__item-price">
-        <b>770 ₽</b>
+        <b>{price} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div className="button button--outline button--circle">
+        <Button outline circle>
           <svg
             width="10"
             height="10"
@@ -74,7 +75,7 @@ const PizzaCart = () => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </Button>
       </div>
     </div>
   );

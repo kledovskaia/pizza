@@ -1,13 +1,17 @@
-import { memo } from 'react';
+import { FC, memo } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { AppState } from '../redux/store';
 import { Button } from './Button';
 
-const HeaderCart = () => {
+type Props = ReturnType<typeof mapStateToProps>;
+
+const HeaderCart: FC<Props> = ({ count, price }) => {
   return (
     <div className="header__cart">
       <Link to="/cart">
         <Button cart>
-          <span>520 ₽</span>
+          <span>{price} ₽</span>
           <div className="button__delimiter"></div>
           <svg
             width="18"
@@ -38,11 +42,16 @@ const HeaderCart = () => {
               strokeLinejoin="round"
             />
           </svg>
-          <span>3</span>
+          <span>{count}</span>
         </Button>
       </Link>
     </div>
   );
 };
 
-export default memo(HeaderCart);
+const mapStateToProps = (state: AppState) => ({
+  count: state.cart.value.totalCount,
+  price: state.cart.value.totalPrice,
+});
+
+export default connect(mapStateToProps)(memo(HeaderCart));
