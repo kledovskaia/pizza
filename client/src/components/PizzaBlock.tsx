@@ -1,11 +1,11 @@
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import classNames from 'classnames';
 import { FC, memo, useCallback, useState } from 'react';
-import { connect } from 'react-redux';
-import { addPizza } from '../redux/slices/cart';
 import { Button } from './Button';
 
-type Props = typeof actions &
-  TPizza & {
+type Props = {
+  addPizza: ActionCreatorWithPayload<TCartPizza, string>;
+} & TPizza & {
     count?: number;
   };
 
@@ -86,15 +86,11 @@ const PizzaBlock: FC<Props> = ({
             />
           </svg>
           <span>Добавить</span>
-          {count && <i>{count}</i>}
+          {!!count && <i>{count}</i>}
         </Button>
       </div>
     </div>
   );
 };
 
-const actions = {
-  addPizza,
-};
-
-export default connect(null, actions)(memo(PizzaBlock));
+export default memo(PizzaBlock);

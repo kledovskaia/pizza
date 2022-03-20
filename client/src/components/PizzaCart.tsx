@@ -1,9 +1,26 @@
-import { FC, memo } from 'react';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { FC, memo, useCallback } from 'react';
 import { Button } from './Button';
 
-type Props = TCartPizza;
+type Props = {
+  pizza: TCartPizza;
+  addPizza: ActionCreatorWithPayload<TCartPizza, string>;
+  removePizza: ActionCreatorWithPayload<TCartPizza, string>;
+  removeAllPizzas: ActionCreatorWithPayload<TCartPizza, string>;
+};
 
-const PizzaCart: FC<Props> = ({ imageUrl, name, size, type, count, price }) => {
+const PizzaCart: FC<Props> = ({
+  addPizza,
+  removePizza,
+  removeAllPizzas,
+  pizza,
+}) => {
+  const { count, imageUrl, name, size, subTotal, type } = pizza;
+
+  const handleAdd = useCallback(() => addPizza(pizza), []);
+  const handleRemove = useCallback(() => removePizza(pizza), []);
+  const handleRemoveAll = useCallback(() => removeAllPizzas(pizza), []);
+
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -16,7 +33,12 @@ const PizzaCart: FC<Props> = ({ imageUrl, name, size, type, count, price }) => {
         </p>
       </div>
       <div className="cart__item-count">
-        <Button className="cart__item-count-minus" outline circle>
+        <Button
+          onClick={handleAdd}
+          className="cart__item-count-plus"
+          outline
+          circle
+        >
           <svg
             width="10"
             height="10"
@@ -35,7 +57,12 @@ const PizzaCart: FC<Props> = ({ imageUrl, name, size, type, count, price }) => {
           </svg>
         </Button>
         <b>{count}</b>
-        <Button className="cart__item-count-minus" outline circle>
+        <Button
+          onClick={handleRemove}
+          className="cart__item-count-minus"
+          outline
+          circle
+        >
           <svg
             width="10"
             height="10"
@@ -55,10 +82,10 @@ const PizzaCart: FC<Props> = ({ imageUrl, name, size, type, count, price }) => {
         </Button>
       </div>
       <div className="cart__item-price">
-        <b>{price} ₽</b>
+        <b>{subTotal} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <Button outline circle>
+        <Button onClick={handleRemoveAll} outline circle>
           <svg
             width="10"
             height="10"

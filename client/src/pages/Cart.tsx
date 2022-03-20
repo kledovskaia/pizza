@@ -2,10 +2,22 @@ import { FC, memo } from 'react';
 import { connect } from 'react-redux';
 import PizzaCart from '../components/PizzaCart';
 import { AppState } from '../redux/store';
+import {
+  addPizza,
+  removePizza,
+  removeAllPizzas,
+  clear,
+} from '../redux/slices/cart';
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const Cart: FC<Props> = ({ cart }) => {
+const Cart: FC<Props> = ({
+  cart,
+  addPizza,
+  removePizza,
+  removeAllPizzas,
+  clear,
+}) => {
   return (
     <div className="content">
       <div className="container container--cart">
@@ -43,7 +55,7 @@ const Cart: FC<Props> = ({ cart }) => {
               </svg>
               Корзина
             </h2>
-            <div className="cart__clear">
+            <div onClick={clear} className="cart__clear">
               <svg
                 width="20"
                 height="20"
@@ -89,7 +101,10 @@ const Cart: FC<Props> = ({ cart }) => {
               items.map((item) => (
                 <PizzaCart
                   key={`${item.id}--${item.type}--${item.size}`}
-                  {...item}
+                  pizza={item}
+                  addPizza={addPizza}
+                  removePizza={removePizza}
+                  removeAllPizzas={removeAllPizzas}
                 />
               ))
             )}
@@ -143,4 +158,11 @@ const mapStateToProps = (state: AppState) => ({
   cart: state.cart.value,
 });
 
-export default connect(mapStateToProps)(memo(Cart));
+const actions = {
+  addPizza,
+  removePizza,
+  removeAllPizzas,
+  clear,
+};
+
+export default connect(mapStateToProps, actions)(memo(Cart));

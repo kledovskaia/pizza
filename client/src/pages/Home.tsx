@@ -1,14 +1,15 @@
 import { FC, memo } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
+import { addPizza } from '../redux/slices/cart';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaLoader from '../components/PizzaLoader';
 
-type Props = ReturnType<typeof mapStateToProps>;
+type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const Home: FC<Props> = ({ items, cart }) => {
+const Home: FC<Props> = ({ items, cart, addPizza }) => {
   return (
     <div className="content">
       <div className="container">
@@ -25,6 +26,7 @@ const Home: FC<Props> = ({ items, cart }) => {
           {!!items.length &&
             items.map((item) => (
               <PizzaBlock
+                addPizza={addPizza}
                 key={item.id}
                 count={cart.pizzas[item.id]?.count}
                 {...item}
@@ -41,4 +43,8 @@ const mapStateToProps = (state: AppState) => ({
   cart: state.cart.value,
 });
 
-export default connect(mapStateToProps)(memo(Home));
+const actions = {
+  addPizza,
+};
+
+export default connect(mapStateToProps, actions)(memo(Home));
