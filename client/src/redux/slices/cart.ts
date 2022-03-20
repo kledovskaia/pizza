@@ -18,33 +18,43 @@ const cart = createSlice({
   name: 'cart',
   reducers: {
     addPizza: (state, action: PayloadAction<TCartPizza>) => {
-      if (!state.value.pizzas[action.payload.id])
-        state.value.pizzas[action.payload.id] = {
-          items: [],
-          count: 0,
-        };
-      const pizzaGroup = state.value.pizzas[action.payload.id];
-      const pizza = pizzaGroup?.items?.find(
-        (pizza) =>
-          pizza.size === action.payload.size &&
-          pizza.type === action.payload.type
-      );
-      if (pizza) {
-        pizza.subTotal += pizza.price;
-        pizza.count++;
-        pizzaGroup.count++;
-        state.value.totalCount++;
-        state.value.totalPrice += action.payload.price;
-      } else {
-        pizzaGroup.items.push({
-          ...action.payload,
-          subTotal: action.payload.price,
+      const { id } = action.payload;
+      const { pizzas } = state.value;
+      const isFirstOfType = !pizzas[id];
+
+      if (isFirstOfType) {
+        pizzas[id] = {
+          items: [
+            {
+              ...action.payload,
+              subTotal: action.payload.price,
+              count: 1,
+            },
+          ],
           count: 1,
-        });
-        pizzaGroup.count = (pizzaGroup?.count || 0) + 1;
-        state.value.totalCount++;
-        state.value.totalPrice += action.payload.price;
+        };
+      } else {
+        const pizzaGroup = pizzas[id];
+        const alreadyAddedPizza = pizzaGroup.items.find(
+          (pizza) =>
+            pizza.size === action.payload.size &&
+            pizza.type === action.payload.type
+        );
+        if (alreadyAddedPizza) {
+          alreadyAddedPizza.subTotal += alreadyAddedPizza.price;
+          alreadyAddedPizza.count++;
+          pizzaGroup.count++;
+        } else {
+          pizzaGroup.items.push({
+            ...action.payload,
+            subTotal: action.payload.price,
+            count: 1,
+          });
+          pizzaGroup.count = (pizzaGroup?.count || 0) + 1;
+        }
       }
+      state.value.totalCount++;
+      state.value.totalPrice += action.payload.price;
     },
     removePizza: (state, action: PayloadAction<TCartPizza>) => {
       const pizzas = state.value.pizzas[action.payload.id]?.items;
