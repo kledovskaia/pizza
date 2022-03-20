@@ -34,7 +34,7 @@ const PizzaBlock: FC<Props> = ({
       type: activeType,
       size: activeSize,
     } as TCartPizza);
-  }, []);
+  }, [activeType, activeSize]);
 
   return (
     <div className="pizza-block">

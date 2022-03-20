@@ -26,13 +26,14 @@ const cart = createSlice({
       } else {
         state.value[action.payload.id] = {
           items: [
+            ...(state.value[action.payload.id]?.items || []),
             {
               ...action.payload,
               subTotal: action.payload.price,
               count: 1,
             },
           ],
-          count: 1,
+          count: (state.value[action.payload.id]?.count || 0) + 1,
         };
       }
     },
