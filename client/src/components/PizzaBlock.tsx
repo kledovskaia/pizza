@@ -1,6 +1,7 @@
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import classNames from 'classnames';
-import { FC, memo, useCallback, useState } from 'react';
+import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { sizeVariants, typeVariants } from '../constants';
 import { Button } from './Button';
 
 type Props = {
@@ -8,9 +9,6 @@ type Props = {
 } & TPizza & {
     count?: number;
   };
-
-const typeVariants = ['тонкое', 'традиционное'];
-const sizeVariants = [26, 30, 40];
 
 const PizzaBlock: FC<Props> = ({
   addPizza,
@@ -25,11 +23,19 @@ const PizzaBlock: FC<Props> = ({
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
+  const calculatedPrice = useMemo(
+    () =>
+      Math.floor(
+        (price / sizes[0]) * activeSize * (!activeType ? 1 : 1.1 * activeType)
+      ),
+    [activeSize, activeType]
+  );
+
   const handleAdd = useCallback(() => {
     addPizza({
       id,
       name,
-      price,
+      price: calculatedPrice,
       imageUrl,
       type: activeType,
       size: activeSize,
@@ -71,7 +77,7 @@ const PizzaBlock: FC<Props> = ({
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от {price} ₽</div>
+        <div className="pizza-block__price">{calculatedPrice} ₽</div>
         <Button onClick={handleAdd} add outline>
           <svg
             width="12"

@@ -2,12 +2,7 @@ import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/store';
 import { setSortBy } from '../redux/slices/filters';
-
-const sortVariants = {
-  popularity: 'популярности',
-  price: 'цене',
-  alphabet: 'алфавиту',
-};
+import { sortVariants } from '../constants';
 
 type Props = typeof actions & ReturnType<typeof mapStateToProps>;
 

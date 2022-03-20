@@ -1,5 +1,6 @@
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { FC, memo, useCallback } from 'react';
+import { typeVariants } from '../constants';
 import { Button } from './Button';
 
 type Props = {
@@ -29,7 +30,7 @@ const PizzaCart: FC<Props> = ({
       <div className="cart__item-info">
         <h3>{name}</h3>
         <p>
-          {type}, {size} см.
+          {typeVariants[type]}, {size} см.
         </p>
       </div>
       <div className="cart__item-count">
