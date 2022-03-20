@@ -6,10 +6,10 @@ const sortTypes = {
 
 export const getPizzas = async (
   parent,
-  { sortBy, filter, order },
+  { sortBy, filterBy, order },
   { models }
 ) => {
-  if (filter === null) {
+  if (filterBy === null) {
     return await models.Pizza.find({}, null, {
       sort: { [sortTypes[sortBy]]: order },
     });
@@ -18,7 +18,7 @@ export const getPizzas = async (
       sort: { [sortTypes[sortBy]]: order },
     })
       .where('category')
-      .equals(filter)
+      .equals(filterBy)
       .sort(`${order}${sortTypes[sortBy]}`);
   }
 };

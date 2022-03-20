@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialState = {
   filterBy: null as number | null,
   sortBy: 'popularity',
-  orderBy: 'asc',
+  order: 'desc',
 };
 
 const orderVariants = {
@@ -26,9 +26,13 @@ const filters = createSlice({
       state,
       action: PayloadAction<typeof initialState['sortBy']>
     ) => {
-      state.sortBy = action.payload;
-      state.orderBy =
-        orderVariants[action.payload as keyof typeof orderVariants];
+      if (state.sortBy === action.payload) {
+        state.order = state.order === 'asc' ? 'desc' : 'asc';
+      } else {
+        state.sortBy = action.payload;
+        state.order =
+          orderVariants[action.payload as keyof typeof orderVariants];
+      }
     },
   },
 });

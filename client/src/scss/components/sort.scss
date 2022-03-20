@@ -43,8 +43,14 @@
     ul {
       overflow: hidden;
       li {
-        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 15px;
         cursor: pointer;
+
+        svg {
+          display: none;
+        }
 
         &.active,
         &:hover {
@@ -54,6 +60,12 @@
         &.active {
           font-weight: bold;
           color: $orange;
+          svg {
+            display: inline;
+            &.order--desc {
+              transform: rotate(180deg);
+            }
+          }
         }
       }
     }

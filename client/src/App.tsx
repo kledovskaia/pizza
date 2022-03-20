@@ -9,8 +9,8 @@ import { setPizzas } from './redux/slices/pizzas';
 import { AppState } from './redux/store';
 
 const GET_PIZZAS = gql`
-  query getPizzas($sortBy: String, $filter: Int, $order: String) {
-    getPizzas(sortBy: $sortBy, filter: $filter, order: $order) {
+  query getPizzas($sortBy: String, $filterBy: Int, $order: String) {
+    getPizzas(sortBy: $sortBy, filterBy: $filterBy, order: $order) {
       id
       imageUrl
       name
@@ -24,11 +24,11 @@ const GET_PIZZAS = gql`
 `;
 type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const App: FC<Props> = ({ setPizzas, sortBy, filter, order }) => {
+const App: FC<Props> = ({ setPizzas, sortBy, filterBy, order }) => {
   const { data, loading, error } = useQuery(GET_PIZZAS, {
     variables: {
       sortBy,
-      filter,
+      filterBy,
       order,
     },
   });
@@ -54,8 +54,8 @@ const App: FC<Props> = ({ setPizzas, sortBy, filter, order }) => {
 
 const mapStateToProps = (state: AppState) => ({
   sortBy: state.filters.sortBy,
-  filter: state.filters.filterBy,
-  order: state.filters.orderBy,
+  filterBy: state.filters.filterBy,
+  order: state.filters.order,
 });
 
 const actions = {
