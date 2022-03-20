@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PizzaCart from '../components/PizzaCart';
 import { AppState } from '../redux/store';
@@ -8,6 +8,8 @@ import {
   removeAllPizzas,
   clear,
 } from '../redux/slices/cart';
+import { Link } from 'react-router-dom';
+import CartEmpty from './CartEmpty';
 
 type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
@@ -18,6 +20,13 @@ const Cart: FC<Props> = ({
   removeAllPizzas,
   clear,
 }) => {
+  const handleClear = useCallback(
+    () => window.confirm('Удалить всё?') && clear(),
+    []
+  );
+
+  if (!Object.keys(cart.pizzas).length) return <CartEmpty />;
+
   return (
     <div className="content">
       <div className="container container--cart">
@@ -55,7 +64,7 @@ const Cart: FC<Props> = ({
               </svg>
               Корзина
             </h2>
-            <div onClick={clear} className="cart__clear">
+            <div onClick={handleClear} className="cart__clear">
               <svg
                 width="20"
                 height="20"
@@ -112,17 +121,15 @@ const Cart: FC<Props> = ({
           <div className="cart__bottom">
             <div className="cart__bottom-details">
               <span>
-                {' '}
-                Всего пицц: <b>{cart.totalCount} шт.</b>{' '}
+                Всего пицц: <b>{cart.totalCount} шт.</b>
               </span>
               <span>
-                {' '}
-                Сумма заказа: <b>{cart.totalPrice} ₽</b>{' '}
+                Сумма заказа: <b>{cart.totalPrice} ₽</b>
               </span>
             </div>
             <div className="cart__bottom-buttons">
-              <a
-                href="/"
+              <Link
+                to="/"
                 className="button button--outline button--add go-back-btn"
               >
                 <svg
@@ -142,7 +149,7 @@ const Cart: FC<Props> = ({
                 </svg>
 
                 <span>Вернуться назад</span>
-              </a>
+              </Link>
               <div className="button pay-btn">
                 <span>Оплатить сейчас</span>
               </div>

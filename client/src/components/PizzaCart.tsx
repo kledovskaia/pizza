@@ -1,13 +1,13 @@
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { FC, memo, useCallback } from 'react';
+import { TAction } from '../@types/types';
 import { typeVariants } from '../constants';
 import { Button } from './Button';
 
 type Props = {
   pizza: TCartPizza;
-  addPizza: ActionCreatorWithPayload<TCartPizza, string>;
-  removePizza: ActionCreatorWithPayload<TCartPizza, string>;
-  removeAllPizzas: ActionCreatorWithPayload<TCartPizza, string>;
+  addPizza: TAction<TCartPizza>;
+  removePizza: TAction<TCartPizza>;
+  removeAllPizzas: TAction<TCartPizza>;
 };
 
 const PizzaCart: FC<Props> = ({
@@ -19,8 +19,27 @@ const PizzaCart: FC<Props> = ({
   const { count, imageUrl, name, size, subTotal, type } = pizza;
 
   const handleAdd = useCallback(() => addPizza(pizza), []);
-  const handleRemove = useCallback(() => removePizza(pizza), []);
-  const handleRemoveAll = useCallback(() => removeAllPizzas(pizza), []);
+  const handleRemove = useCallback(() => {
+    if (
+      count === 1 &&
+      !window.confirm(
+        `Удалить "${pizza.name}" (${typeVariants[pizza.type]} тесто, ${
+          pizza.size
+        }см)?`
+      )
+    )
+      return;
+    removePizza(pizza);
+  }, [count]);
+  const handleRemoveAll = useCallback(
+    () =>
+      window.confirm(
+        `Удалить все "${pizza.name}" (${typeVariants[pizza.type]} тесто, ${
+          pizza.size
+        }см)?`
+      ) && removeAllPizzas(pizza),
+    []
+  );
 
   return (
     <div className="cart__item">
@@ -30,13 +49,13 @@ const PizzaCart: FC<Props> = ({
       <div className="cart__item-info">
         <h3>{name}</h3>
         <p>
-          {typeVariants[type]}, {size} см.
+          {typeVariants[type]} тесто, {size} см.
         </p>
       </div>
       <div className="cart__item-count">
         <Button
-          onClick={handleAdd}
-          className="cart__item-count-plus"
+          onClick={handleRemove}
+          className="cart__item-count-minus"
           outline
           circle
         >
@@ -59,8 +78,8 @@ const PizzaCart: FC<Props> = ({
         </Button>
         <b>{count}</b>
         <Button
-          onClick={handleRemove}
-          className="cart__item-count-minus"
+          onClick={handleAdd}
+          className="cart__item-count-plus"
           outline
           circle
         >

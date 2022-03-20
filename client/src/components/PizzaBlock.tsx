@@ -1,11 +1,11 @@
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import classNames from 'classnames';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
+import { TAction } from '../@types/types';
 import { sizeVariants, typeVariants } from '../constants';
 import { Button } from './Button';
 
 type Props = {
-  addPizza: ActionCreatorWithPayload<TCartPizza, string>;
+  addPizza: TAction<TCartPizza>;
 } & TPizza & {
     count?: number;
   };
