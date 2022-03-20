@@ -57,25 +57,26 @@ const cart = createSlice({
       state.value.totalPrice += action.payload.price;
     },
     removePizza: (state, action: PayloadAction<TCartPizza>) => {
-      const pizzas = state.value.pizzas[action.payload.id]?.items;
+      const pizzaGroup = state.value.pizzas[action.payload.id];
+      const pizzas = pizzaGroup?.items;
       const index = pizzas.findIndex(
         (pizza) =>
           pizza.size === action.payload.size &&
           pizza.type === action.payload.type
       );
-      const count = pizzas[index].count;
 
       const pizza = pizzas[index];
+      const count = pizza.count;
       if (count > 1) {
         pizza.subTotal -= pizza.price;
-        pizza.count--;
       } else {
         pizzas.splice(index, 1);
-        pizza.count--;
-        if (!state.value.pizzas[action.payload.id].items.length) {
+        if (!pizzaGroup.items.length) {
           delete state.value.pizzas[action.payload.id];
         }
       }
+      pizza.count--;
+      pizzaGroup.count--;
       state.value.totalCount--;
       state.value.totalPrice -= action.payload.price;
     },

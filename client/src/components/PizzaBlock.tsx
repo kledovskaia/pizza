@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { FC, memo, useCallback, useMemo, useState } from 'react';
 import { TAction } from '../@types/types';
 import { sizeVariants, typeVariants } from '../constants';
-import { Button } from './Button';
+import Button from './Button';
 
 type Props = {
   addPizza: TAction<TCartPizza>;

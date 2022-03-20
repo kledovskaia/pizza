@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC } from 'react';
+import { FC, memo, ReactNode } from 'react';
 
 enum modificators {
   outline,
@@ -11,11 +11,12 @@ enum modificators {
 type Props = {
   [key in keyof typeof modificators]?: boolean;
 } & {
+  children: ReactNode;
   className?: string;
   onClick?: (...arg: any[]) => void;
 };
 
-export const Button: FC<Props> = (props) => {
+const Button: FC<Props> = (props) => {
   return (
     <button
       onClick={props.onClick}
@@ -39,3 +40,5 @@ export const Button: FC<Props> = (props) => {
     </button>
   );
 };
+
+export default memo(Button);

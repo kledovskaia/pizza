@@ -1,7 +1,7 @@
 import { FC, memo, useCallback } from 'react';
 import { TAction } from '../@types/types';
 import { typeVariants } from '../constants';
-import { Button } from './Button';
+import Button from './Button';
 
 type Props = {
   pizza: TCartPizza;

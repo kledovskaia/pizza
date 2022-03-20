@@ -2,7 +2,7 @@ import { FC, memo } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppState } from '../redux/store';
-import { Button } from './Button';
+import Button from './Button';
 
 type Props = ReturnType<typeof mapStateToProps>;
 
