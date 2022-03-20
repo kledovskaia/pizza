@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import Page from './components/Page';
@@ -33,11 +33,14 @@ const App: FC<Props> = ({ setPizzas, sortBy, filter }) => {
     },
   });
 
+  useLayoutEffect(() => {
+    if (loading) setPizzas([]);
+  }, [loading]);
+
   useEffect(() => {
     if (!data) return;
-    if (loading) setPizzas([]);
     setPizzas(data.getPizzas);
-  }, [data, loading]);
+  }, [data]);
 
   return (
     <Page>
