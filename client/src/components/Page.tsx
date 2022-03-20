@@ -4,8 +4,10 @@ import Header from './Header';
 const Page: FC = ({ children }) => {
   return (
     <div className="wrapper">
-      <Header />
-      {children}
+      <div className="inner">
+        <Header />
+        {children}
+      </div>
     </div>
   );
 };

@@ -11,10 +11,13 @@ body {
 .wrapper {
   width: calc(100vw - 100px);
   height: 100%;
-  background-color: #fff;
-  margin: 50px auto;
-  border-radius: 10px;
+  margin: 0 auto;
+  padding: 50px 0;
   max-width: 1400px;
+}
+.inner {
+  border-radius: 10px;
+  background-color: #fff;
 }
 
 .content {
