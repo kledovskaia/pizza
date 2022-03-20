@@ -8,7 +8,7 @@ type Props = {
 const typeVariants = ['тонкое', 'традиционное'];
 const sizeVariants = [26, 30, 40];
 
-const Pizza: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
+const PizzaBlock: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
@@ -69,4 +69,4 @@ const Pizza: FC<Props> = ({ name, types, sizes, price, imageUrl }) => {
   );
 };
 
-export default memo(Pizza);
+export default memo(PizzaBlock);
