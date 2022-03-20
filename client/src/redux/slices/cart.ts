@@ -55,14 +55,17 @@ const cart = createSlice({
       );
       const count = pizzas[index].count;
 
+      const pizza = pizzas[index];
       if (count > 1) {
-        const pizza = pizzas[index];
         pizza.subTotal -= pizza.price;
         pizza.count--;
       } else {
         pizzas.splice(index, 1);
+        pizza.count--;
+        if (!state.value.pizzas[action.payload.id].items.length) {
+          delete state.value.pizzas[action.payload.id];
+        }
       }
-      state.value.pizzas[action.payload.id].count--;
       state.value.totalCount--;
       state.value.totalPrice -= action.payload.price;
     },
@@ -76,8 +79,11 @@ const cart = createSlice({
       state.value.totalCount -= pizzas[index].count;
       state.value.totalPrice -= pizzas[index].subTotal;
       state.value.pizzas[action.payload.id].count -= pizzas[index].count;
-
-      state.value.pizzas[action.payload.id]?.items?.splice(index, 1);
+      if (state.value.pizzas[action.payload.id].items.length > 1) {
+        state.value.pizzas[action.payload.id].items.splice(index, 1);
+      } else {
+        delete state.value.pizzas[action.payload.id];
+      }
     },
     clear: (state) => {
       state.value = initialState.value;
