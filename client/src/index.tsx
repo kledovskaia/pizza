@@ -8,7 +8,6 @@ import { store } from './redux/store';
 import './scss/app.scss';
 
 const uri = process.env.REACT_APP_API_URI;
-// const uri = 'https://pizza-2022.herokuapp.com/api';
 
 const client = new ApolloClient({
   uri,
