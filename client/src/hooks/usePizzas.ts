@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPizzas } from '../redux/slices/pizzas';
 import { AppState } from '../redux/store';
 import * as queries from '../graphql/queries';
+import { setLoading } from '../redux/slices/loading';
 
 type TResponse = {
   getPizzas: TPizza[];
@@ -23,7 +24,7 @@ export const usePizzas = () => {
   });
 
   useLayoutEffect(() => {
-    if (loading) setPizzas([]);
+    dispatch(setLoading(loading));
   }, [loading]);
 
   useEffect(() => {

@@ -9,7 +9,7 @@ import PizzaLoader from '../components/PizzaLoader';
 
 type Props = ReturnType<typeof mapStateToProps> & typeof actions;
 
-const Home: FC<Props> = ({ items, cart, addPizza }) => {
+const Home: FC<Props> = ({ items, cart, addPizza, isLoading }) => {
   return (
     <div className="content">
       <div className="container">
@@ -19,11 +19,12 @@ const Home: FC<Props> = ({ items, cart, addPizza }) => {
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
-          {!items.length &&
+          {isLoading &&
             new Array(8)
               .fill(null)
               .map((_, index) => <PizzaLoader key={index} />)}
-          {!!items.length &&
+          {!isLoading &&
+            !!items.length &&
             items.map((item) => (
               <PizzaBlock
                 addPizza={addPizza}
@@ -41,6 +42,7 @@ const Home: FC<Props> = ({ items, cart, addPizza }) => {
 const mapStateToProps = (state: AppState) => ({
   items: state.pizzas.value,
   cart: state.cart.value,
+  isLoading: state.loading.value,
 });
 
 const actions = {
