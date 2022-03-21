@@ -55,9 +55,9 @@ const cart = createSlice({
       state.value.totalPrice += price;
     },
     removePizza: (state, action: PayloadAction<TCartPizza>) => {
+      console.log(action.payload);
       const { id, size, type, price } = action.payload;
-      const pizzasState = state.value.pizzas;
-      const pizzaGroup = pizzasState[id];
+      const pizzaGroup = state.value.pizzas[id];
       const pizzas = pizzaGroup?.items;
       const index = pizzas.findIndex(
         (pizza) => pizza.size === size && pizza.type === type
@@ -70,7 +70,7 @@ const cart = createSlice({
       } else {
         pizzas.splice(index, 1);
         if (!pizzaGroup.items.length) {
-          delete pizzasState[id];
+          delete state.value.pizzas[id];
         }
       }
       pizza.count--;
@@ -79,6 +79,7 @@ const cart = createSlice({
       state.value.totalPrice -= price;
     },
     removeAllPizzas: (state, action: PayloadAction<TCartPizza>) => {
+      console.log(action.payload);
       const { id, size, type } = action.payload;
       const pizzasState = state.value.pizzas;
       const pizzaGroup = pizzasState[id];

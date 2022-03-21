@@ -1,6 +1,7 @@
-import { FC, memo, useCallback } from 'react';
+import { FC, memo, useCallback, useContext } from 'react';
 import { TAction } from '../@types/types';
 import { typeVariants } from '../constants';
+import { PopupContext } from '../context/Popup';
 import Button from './Button';
 
 type Props = {
@@ -17,29 +18,29 @@ const PizzaCart: FC<Props> = ({
   pizza,
 }) => {
   const { count, imageUrl, name, size, subTotal, type } = pizza;
+  const openPopup = useContext(PopupContext);
 
   const handleAdd = useCallback(() => addPizza(pizza), []);
   const handleRemove = useCallback(() => {
-    if (
-      count === 1 &&
-      !window.confirm(
-        `Удалить "${pizza.name}" (${typeVariants[pizza.type]} тесто, ${
-          pizza.size
-        }см)?`
-      )
-    )
+    if (count > 1) {
+      removePizza(pizza);
       return;
-    removePizza(pizza);
+    }
+    openPopup({
+      message: `Вы действительно хотите удалить последнюю пиццу "${
+        pizza.name
+      }" (${typeVariants[pizza.type]} тесто, ${pizza.size}см)`,
+      onConfirm: () => removePizza(pizza),
+    });
   }, [count]);
-  const handleRemoveAll = useCallback(
-    () =>
-      window.confirm(
-        `Удалить все "${pizza.name}" (${typeVariants[pizza.type]} тесто, ${
-          pizza.size
-        }см)?`
-      ) && removeAllPizzas(pizza),
-    []
-  );
+  const handleRemoveAll = useCallback(() => {
+    openPopup({
+      message: `Вы действительно хотите удалить все пиццы "${pizza.name}" (${
+        typeVariants[pizza.type]
+      } тесто, ${pizza.size}см)`,
+      onConfirm: () => removeAllPizzas(pizza),
+    });
+  }, []);
 
   return (
     <div className="cart__item">

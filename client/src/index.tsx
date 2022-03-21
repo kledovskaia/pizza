@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { PopupProvider } from './context/Popup';
 import { store } from './redux/store';
 import './scss/app.scss';
 
@@ -29,7 +30,9 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <PopupProvider>
+            <App />
+          </PopupProvider>
         </BrowserRouter>
       </Provider>
     </ApolloProvider>
