@@ -25,6 +25,10 @@ const Cart: FC<Props> = ({
     () => window.confirm('Удалить всё?') && clear(),
     []
   );
+  const handlePayment = useCallback(() => {
+    window.alert('Заказ получен!');
+    clear();
+  }, []);
 
   if (!Object.keys(cart.pizzas).length) return <CartEmpty />;
 
@@ -149,7 +153,7 @@ const Cart: FC<Props> = ({
                   <span>Вернуться назад</span>
                 </Button>
               </Link>
-              <Button className="pay-btn">
+              <Button onClick={handlePayment} className="pay-btn">
                 <span>Оплатить сейчас</span>
               </Button>
             </div>

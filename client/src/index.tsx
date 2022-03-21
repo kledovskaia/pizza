@@ -7,7 +7,7 @@ import App from './App';
 import { store } from './redux/store';
 import './scss/app.scss';
 
-const uri = 'http://localhost:4000';
+const uri = process.env.REACT_APP_API_URI;
 
 const client = new ApolloClient({
   uri,
